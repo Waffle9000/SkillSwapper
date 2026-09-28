@@ -90,6 +90,9 @@ fun updatePlacemark() {
     }
 }
 
+
+
+
 fun deletePlacemark() {
     println("\n--- Delete Placemark ---")
     listPlacemarks()
