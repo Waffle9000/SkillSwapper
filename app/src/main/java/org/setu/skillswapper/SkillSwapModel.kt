@@ -1,6 +1,6 @@
 package org.setu.skillswapper
 
-data class PlaceMarkerData(
+data class SkillSwapModel(
     var id: Long = 1,
     var title: String,
     var description: String,

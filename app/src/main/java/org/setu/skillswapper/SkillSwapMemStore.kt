@@ -1,22 +1,22 @@
 package org.setu.skillswapper
 
-import org.setu.skillswapper.PlaceMarkerData
+import org.setu.skillswapper.SkillSwapModel
 import java.util.concurrent.atomic.AtomicLong
-class PlacemarkMemStore {
+class SkillSwapMemStore {
 
-    private val placemarks = ArrayList<PlaceMarkerData>()
+    private val placemarks = ArrayList<SkillSwapModel>()
     private val lastId = AtomicLong(0L)
 
-    fun findAll(): List<PlaceMarkerData> {
+    fun findAll(): List<SkillSwapModel> {
         return placemarks
     }
 
-    fun create(placemark: PlaceMarkerData) {
+    fun create(placemark: SkillSwapModel) {
         placemark.id = lastId.incrementAndGet()
         placemarks.add(placemark)
     }
 
-    fun update(placemark: PlaceMarkerData): Boolean {
+    fun update(placemark: SkillSwapModel): Boolean {
         val foundPlacemark = findOne(placemark.id)
         return if (foundPlacemark != null) {
             foundPlacemark.title = placemark.title
@@ -39,7 +39,7 @@ class PlacemarkMemStore {
         }
     }
 
-    fun findOne(id: Long): PlaceMarkerData? {
+    fun findOne(id: Long): SkillSwapModel? {
         return placemarks.find { p -> p.id == id }
     }
 }

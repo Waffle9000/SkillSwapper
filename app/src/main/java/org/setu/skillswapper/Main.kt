@@ -1,22 +1,22 @@
 package org.setu.skillswapper
 
-import org.setu.skillswapper.PlaceMarkerData
-import org.setu.skillswapper.PlacemarkMemStore
+import org.setu.skillswapper.SkillSwapModel
+import org.setu.skillswapper.SkillSwapMemStore
 
-val store = PlacemarkMemStore()
+val store = SkillSwapMemStore()
 
 fun main() {
-    println("=== Placemark Console App (Lab 1) ===")
+    println("=== Swap Console App (Lab 1) ===")
     var input: Int
     do {
         input = menu()
         when (input) {
-            1 -> addPlacemark()
-            2 -> listPlacemarks()
-            3 -> updatePlacemark()
-            4 -> deletePlacemark()
-            5 -> searchPlacemark()
-            0 -> println("\nExiting Placemark application. Goodbye!")
+            1 -> addSwap()
+            2 -> listSwaps()
+            3 -> updateSwap()
+            4 -> deleteSwap()
+            5 -> searchSwap()
+            0 -> println("\nExiting SkillSwap application. Goodbye!")
             else -> println("\nInvalid option. Please try again.")
         }
     } while (input != 0)
@@ -26,11 +26,11 @@ fun menu(): Int {
     println("\n----------------------------------")
     println(" MAIN MENU")
     println("----------------------------------")
-    println(" 1. Add Placemark")
-    println(" 2. List All Placemarks")
-    println(" 3. Update a Placemark")
-    println(" 4. Delete a Placemark")
-    println(" 5. Search Placemark by ID")
+    println(" 1. Add Swap")
+    println(" 2. List All Swaps")
+    println(" 3. Update a Swap")
+    println(" 4. Delete a Swap")
+    println(" 5. Search Swap by ID")
     println(" 0. Exit")
     print("\nEnter option: ")
     return readlnOrNull()?.toIntOrNull() ?: -1
@@ -39,38 +39,38 @@ fun menu(): Int {
 
 
 
-fun addPlacemark() {
-    println("\n--- Add Placemark ---")
+fun addSwap() {
+    println("\n--- Add Swap ---")
     print("Enter Title: ")
     val title = readlnOrNull()?.trim().orEmpty()
     print("Enter Description: ")
     val description = readlnOrNull()?.trim().orEmpty()
 
     if (title.isNotEmpty()) {
-        val placemark = PlaceMarkerData(title = title, description = description)
-        store.create(placemark)
-        println("Placemark added successfully with ID: ${placemark.id}")
+        val Swap = SkillSwapModel(title = title, description = description)
+        store.create(Swap)
+        println("Swap added successfully with ID: ${Swap.id}")
     } else {
         println("Title cannot be empty. Creation cancelled.")
     }
 }
 
-fun listPlacemarks() {
-    println("\n--- All Placemarks ---")
-    val placemarks = store.findAll()
-    if (placemarks.isEmpty()) {
-        println("No placemarks stored yet.")
+fun listSwaps() {
+    println("\n--- All Swaps ---")
+    val Swaps = store.findAll()
+    if (Swaps.isEmpty()) {
+        println("No Swaps stored yet.")
     } else {
-        placemarks.forEach { println("ID: ${it.id} | Title: ${it.title} | Description: ${it.description}") }
+        Swaps.forEach { println("ID: ${it.id} | Title: ${it.title} | Description: ${it.description}") }
     }
 }
 
-fun updatePlacemark() {
-    println("\n--- Update Placemark ---")
-    listPlacemarks()
+fun updateSwap() {
+    println("\n--- Update Swap ---")
+    listSwaps()
     if (store.findAll().isEmpty()) return
 
-    print("\nEnter ID of Placemark to update: ")
+    print("\nEnter ID of Swap to update: ")
     val id = readlnOrNull()?.toLongOrNull()
 
     if (id != null && store.findOne(id) != null) {
@@ -80,50 +80,50 @@ fun updatePlacemark() {
         val description = readlnOrNull()?.trim().orEmpty()
 
         if (title.isNotEmpty()) {
-            val updated = store.update(PlaceMarkerData(id = id, title = title, description = description))
-            if (updated) println("Placemark updated successfully.")
+            val updated = store.update(SkillSwapModel(id = id, title = title, description = description))
+            if (updated) println("Swap updated successfully.")
         } else {
             println("Title cannot be empty. Update cancelled.")
         }
     } else {
-        println("Placemark with ID $id not found.")
+        println("Swap with ID $id not found.")
     }
 }
 
 
 
 
-fun deletePlacemark() {
-    println("\n--- Delete Placemark ---")
-    listPlacemarks()
+fun deleteSwap() {
+    println("\n--- Delete Swap ---")
+    listSwaps()
     if (store.findAll().isEmpty()) return
 
-    print("\nEnter ID of Placemark to delete: ")
+    print("\nEnter ID of Swap to delete: ")
     val id = readlnOrNull()?.toLongOrNull()
 
     if (id != null) {
         val deleted = store.delete(id)
         if (deleted) {
-            println("Placemark with ID $id deleted successfully.")
+            println("Swap with ID $id deleted successfully.")
         } else {
-            println("Placemark with ID $id not found.")
+            println("Swap with ID $id not found.")
         }
     } else {
         println("Invalid ID entered.")
     }
 }
 
-fun searchPlacemark() {
-    println("\n--- Search Placemark ---")
+fun searchSwap() {
+    println("\n--- Search Swap ---")
     print("Enter ID: ")
     val id = readlnOrNull()?.toLongOrNull()
 
     if (id != null) {
-        val placemark = store.findOne(id)
-        if (placemark != null) {
-            println("Found: ID: ${placemark.id} | Title: ${placemark.title} | Description: ${placemark.description}")
+        val Swap = store.findOne(id)
+        if (Swap != null) {
+            println("Found: ID: ${Swap.id} | Title: ${Swap.title} | Description: ${Swap.description}")
         } else {
-            println("No placemark found with ID $id.")
+            println("No Swap found with ID $id.")
         }
     } else {
         println("Invalid ID entered.")
