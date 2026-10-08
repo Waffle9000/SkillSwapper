@@ -1,67 +1,37 @@
 package org.setu.skillswapper
 
 import android.os.Bundle
-import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class AddEditActivity : AppCompatActivity() {
 
-    private lateinit var titleInput: EditText
-    private lateinit var descriptionInput: EditText
-    private lateinit var xInput: EditText
-    private lateinit var yInput: EditText
+    private lateinit var wantedInput: EditText
+    private lateinit var offeredInput: EditText
+    private lateinit var locationInput: EditText
 
-    private var editingId: Long = -1L
+    private var editingId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createUserInterface()
+        setContentView(R.layout.activity_add_edit)
 
-        editingId = intent.getLongExtra("id", -1L)
-        if (editingId != -1L) loadExistingSwap(editingId)
-    }
+        wantedInput = findViewById(R.id.wantedInput)
+        offeredInput = findViewById(R.id.offeredInput)
+        locationInput = findViewById(R.id.locationInput)
 
-    private fun createUserInterface() {
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32, 320, 32, 32)
+        editingId = intent.getLongExtra("id", -1L).takeIf { it != -1L }
+
+        if (editingId != null) {
+            findViewById<TextView>(R.id.formTitle).text = "Edit Swap"
+            loadExistingSwap(editingId!!)
         }
 
-        titleInput = EditText(this).apply { hint = "Title" }
-        descriptionInput = EditText(this).apply { hint = "Description" }
-
-        xInput = EditText(this).apply {
-            hint = "X coordinate"
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        yInput = EditText(this).apply {
-            hint = "Y coordinate"
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        val saveButton = Button(this).apply {
-            text = "Save"
-            setOnClickListener { saveSwap() }
-        }
-
-        val cancelButton = Button(this).apply {
-            text = "Cancel"
-            setOnClickListener { finish() }
-        }
-
-        root.addView(titleInput)
-        root.addView(descriptionInput)
-        root.addView(xInput)
-        root.addView(yInput)
-        root.addView(saveButton)
-        root.addView(cancelButton)
-
-        setContentView(root)
+        findViewById<Button>(R.id.saveButton).setOnClickListener { saveSwap() }
+        findViewById<Button>(R.id.cancelButton).setOnClickListener { finish() }
     }
 
     private fun loadExistingSwap(id: Long) {
@@ -73,41 +43,37 @@ class AddEditActivity : AppCompatActivity() {
             return
         }
 
-        titleInput.setText(swap.title)
-        descriptionInput.setText(swap.description)
-        xInput.setText(swap.x.toString())
-        yInput.setText(swap.y.toString())
+        wantedInput.setText(swap.skillWanted)
+        offeredInput.setText(swap.skillOffered)
+        locationInput.setText(swap.location)
     }
 
     private fun saveSwap() {
-        val title = titleInput.text.toString().trim()
-        val description = descriptionInput.text.toString().trim()
+        val wanted = wantedInput.text.toString().trim()
+        val offered = offeredInput.text.toString().trim()
+        val location = locationInput.text.toString().trim()
 
-        if (title.isEmpty()) {
-            titleInput.error = "Title is required"
+        if (wanted.isEmpty()) {
+            wantedInput.error = "Required"
+            return
+        }
+        if (offered.isEmpty()) {
+            offeredInput.error = "Required"
+            return
+        }
+        if (location.isEmpty()) {
+            locationInput.error = "Required"
             return
         }
 
-        val x = xInput.text.toString().toDoubleOrNull()
-        if (x == null) {
-            xInput.error = "Enter a valid number"
-            return
-        }
-
-        val y = yInput.text.toString().toDoubleOrNull()
-        if (y == null) {
-            yInput.error = "Enter a valid number"
-            return
-        }
-
-        if (editingId == -1L) {
+        if (editingId == null) {
             AppData.swaps.create(
-                SkillSwapModel(title = title, description = description, x = x, y = y)
+                SkillSwapModel(skillWanted = wanted, skillOffered = offered, location = location)
             )
             Toast.makeText(this, "Swap created", Toast.LENGTH_SHORT).show()
         } else {
             AppData.swaps.update(
-                SkillSwapModel(id = editingId, title = title, description = description, x = x, y = y)
+                SkillSwapModel(id = editingId!!, skillWanted = wanted, skillOffered = offered, location = location)
             )
             Toast.makeText(this, "Swap updated", Toast.LENGTH_SHORT).show()
         }

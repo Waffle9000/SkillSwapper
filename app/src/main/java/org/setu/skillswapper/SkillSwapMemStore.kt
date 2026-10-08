@@ -19,10 +19,9 @@ class SkillSwapMemStore {
     fun update(placemark: SkillSwapModel): Boolean {
         val foundPlacemark = findOne(placemark.id)
         return if (foundPlacemark != null) {
-            foundPlacemark.title = placemark.title
-            foundPlacemark.description = placemark.description
-            foundPlacemark.x = placemark.x
-            foundPlacemark.y = placemark.y
+            foundPlacemark.skillWanted = placemark.skillWanted
+            foundPlacemark.skillOffered = placemark.skillOffered
+            foundPlacemark.location = placemark.location
             true
         } else {
             false
