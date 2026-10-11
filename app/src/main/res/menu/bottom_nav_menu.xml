@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/icon_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_lists"
+        android:icon="@drawable/icon_list"
+        android:title="My Lists" />
+
+    <!-- Empty gap in the middle. The round SkillSwap button sits on top of it. -->
+    <item
+        android:id="@+id/nav_swap"
+        android:enabled="false"
+        android:title="" />
+
+    <item
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/icon_chat"
+        android:title="Chat" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/icon_settings"
+        android:title="Settings" />
+
+</menu>

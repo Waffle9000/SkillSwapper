@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="swap_blue">#3B5BDB</color>
+    <color name="swap_turquoise">#14B8A6</color>
+    <color name="swap_purple">#7C3AED</color>
+    <color name="swap_background">#B2EBE3</color>
+
+    <color name="swap_blue_dark">#9DB2FF</color>
+    <color name="swap_turquoise_dark">#5EEAD4</color>
+    <color name="swap_purple_dark">#C4B5FD</color>
+    <color name="swap_background_dark">#12131A</color>
+
 </resources>

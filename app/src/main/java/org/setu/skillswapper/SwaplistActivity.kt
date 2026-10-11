@@ -27,9 +27,7 @@ class SwapListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        findViewById<Button>(R.id.returnButton).setOnClickListener {
-            finish()
-        }
+        setupBottomBar(this, R.id.nav_lists)
     }
 
     override fun onResume() {
