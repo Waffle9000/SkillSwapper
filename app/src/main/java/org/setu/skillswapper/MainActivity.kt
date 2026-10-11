@@ -11,15 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val viewSwapsButton = findViewById<Button>(R.id.viewSwapsButton)
-        val addSwapButton = findViewById<Button>(R.id.addSwapButton)
-
-        viewSwapsButton.setOnClickListener {
-            startActivity(Intent(this, SwapListActivity::class.java))
-        }
-
-        addSwapButton.setOnClickListener {
+        findViewById<Button>(R.id.addSwapButton).setOnClickListener {
             startActivity(Intent(this, AddEditActivity::class.java))
         }
+
+        setupBottomBar(this, R.id.nav_home)
     }
 }
