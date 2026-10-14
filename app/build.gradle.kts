@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

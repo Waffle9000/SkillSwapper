@@ -5,5 +5,4 @@ data class SkillSwapModel(
     var skillWanted: String,
     var skillOffered: String,
     var location: String
-
 )

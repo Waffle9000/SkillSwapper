@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-// This file should be called from any screen that shows the bottom bar.
+// This file is called from any screen that shows the bottom bar.
 
 fun setupBottomBar(activity: AppCompatActivity, currentItemId: Int) {
 
