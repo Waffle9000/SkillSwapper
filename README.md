@@ -21,6 +21,7 @@ An Android app for swapping skills instead of paying for them. Built in Kotlin f
 - **v0.1.0** – Bottom navigation bar and theme
 - **v0.2.0** – Dark mode
 - **v0.3.0** – Search
+- **v0.4.0** - Timber Logging / Long press deletion
 
 ## Planned
 
