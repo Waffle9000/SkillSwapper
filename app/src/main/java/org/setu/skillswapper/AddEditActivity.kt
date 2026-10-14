@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import timber.log.Timber
 
 class AddEditActivity : AppCompatActivity() {
 
@@ -70,11 +71,13 @@ class AddEditActivity : AppCompatActivity() {
             AppData.swaps.create(
                 SkillSwapModel(skillWanted = wanted, skillOffered = offered, location = location)
             )
+            Timber.d("Created swap: $wanted for $offered")
             Toast.makeText(this, "Swap created", Toast.LENGTH_SHORT).show()
         } else {
             AppData.swaps.update(
                 SkillSwapModel(id = editingId!!, skillWanted = wanted, skillOffered = offered, location = location)
             )
+            Timber.d("Updated swap id=$editingId")
             Toast.makeText(this, "Swap updated", Toast.LENGTH_SHORT).show()
         }
 

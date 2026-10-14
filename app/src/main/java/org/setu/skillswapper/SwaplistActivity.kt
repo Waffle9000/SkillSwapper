@@ -3,10 +3,12 @@ package org.setu.skillswapper
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged  //runs code everytime the text in the search box changes
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 class SwapListActivity : AppCompatActivity() {
 
@@ -23,14 +25,24 @@ class SwapListActivity : AppCompatActivity() {
 
         adapter = SwapAdapter(
             swaps = AppData.swaps.findAll(),
-            onEdit = { swap -> editSwap(swap) },
-            onDelete = { swap -> deleteSwap(swap) }
+            listener = object : OnSwapListener {
+
+                // Tap a card
+                override fun onSwapClick(swap: SkillSwapModel) {
+                    editSwap(swap)
+                }
+
+                // Long press a card
+                override fun onSwapLongClick(swap: SkillSwapModel): Boolean {
+                    confirmDelete(swap)
+                    return true
+                }
+            }
         )
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        // Re-filter the list every time the search text changes
         searchInput.doAfterTextChanged {
             adapter.updateSwaps(searchSwaps())
         }
@@ -45,7 +57,6 @@ class SwapListActivity : AppCompatActivity() {
         }
     }
 
-    // Returns only the swaps that match the search text
     private fun searchSwaps(): List<SkillSwapModel> {
         val query = searchInput.text.toString().trim()
 
@@ -57,12 +68,24 @@ class SwapListActivity : AppCompatActivity() {
     }
 
     private fun editSwap(swap: SkillSwapModel) {
+        Timber.d("Editing swap id=${swap.id}")
         val intent = Intent(this, AddEditActivity::class.java)
         intent.putExtra("id", swap.id)
         startActivity(intent)
     }
 
+    // Ask before deleting
+    private fun confirmDelete(swap: SkillSwapModel) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete swap?")
+            .setMessage("Delete \"${swap.skillWanted}\"? This can't be undone.")
+            .setPositiveButton("Delete") { _, _ -> deleteSwap(swap) }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun deleteSwap(swap: SkillSwapModel) {
+        Timber.d("Deleting swap id=${swap.id}")
         AppData.swaps.delete(swap.id)
         adapter.updateSwaps(searchSwaps())
     }

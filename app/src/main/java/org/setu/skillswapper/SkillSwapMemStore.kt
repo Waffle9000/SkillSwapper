@@ -1,27 +1,30 @@
 package org.setu.skillswapper
 
-import org.setu.skillswapper.SkillSwapModel
 import java.util.concurrent.atomic.AtomicLong
+import timber.log.Timber
+
 class SkillSwapMemStore {
 
-    private val placemarks = ArrayList<SkillSwapModel>()
+    private val swaps = ArrayList<SkillSwapModel>()
     private val lastId = AtomicLong(0L)
 
     fun findAll(): List<SkillSwapModel> {
-        return placemarks
+        return swaps
     }
 
-    fun create(placemark: SkillSwapModel) {
-        placemark.id = lastId.incrementAndGet()
-        placemarks.add(placemark)
+    fun create(swap: SkillSwapModel) {
+        swap.id = lastId.incrementAndGet()
+        swaps.add(swap)
+        Timber.d("Store: created swap id=${swap.id}")
     }
 
-    fun update(placemark: SkillSwapModel): Boolean {
-        val foundPlacemark = findOne(placemark.id)
-        return if (foundPlacemark != null) {
-            foundPlacemark.skillWanted = placemark.skillWanted
-            foundPlacemark.skillOffered = placemark.skillOffered
-            foundPlacemark.location = placemark.location
+    fun update(swap: SkillSwapModel): Boolean {
+        val foundSwap = findOne(swap.id)
+        return if (foundSwap != null) {
+            foundSwap.skillWanted = swap.skillWanted
+            foundSwap.skillOffered = swap.skillOffered
+            foundSwap.location = swap.location
+            Timber.d("Store: updated swap id=${swap.id}")
             true
         } else {
             false
@@ -29,9 +32,10 @@ class SkillSwapMemStore {
     }
 
     fun delete(id: Long): Boolean {
-        val foundPlacemark = findOne(id)
-        return if (foundPlacemark != null) {
-            placemarks.remove(foundPlacemark)
+        val foundSwap = findOne(id)
+        return if (foundSwap != null) {
+            swaps.remove(foundSwap)
+            Timber.d("Store: deleted swap id=$id")
             true
         } else {
             false
@@ -39,6 +43,6 @@ class SkillSwapMemStore {
     }
 
     fun findOne(id: Long): SkillSwapModel? {
-        return placemarks.find { p -> p.id == id }
+        return swaps.find { s -> s.id == id }
     }
 }
